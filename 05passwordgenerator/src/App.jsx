@@ -8,7 +8,7 @@ function App() {
 
   return (
     <>
-      
+      <h1 className="bg-red-100 p-4">Testing perposes</h1>
     </>
   );
 }
