@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -9,6 +9,27 @@ function App() {
   const [charAllowed, setCharAllowed] = useState(false);
   const [password, setPassword] = useState("");
 
+  const generatePassword = useCallback(() => {
+    let pass = "";
+    let chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    if (numberAllowed) {
+      chars += "0123456789";
+    }
+    if (charAllowed) {
+      chars += "!@#$%^&*()_+~`|}{[]:;?><,./-=";
+    }
+
+    for (let i = 1; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * chars.length);
+      pass += chars.charAt(randomIndex);
+    }
+    setPassword(pass);
+  }, [length, numberAllowed, charAllowed]);
+
+  useEffect(() => {
+    generatePassword();
+  }, [length, numberAllowed, charAllowed]);
   return (
     <div className="w-full max-w-md mx-auto shadow-md rounded-lg px-4 py-3 my-8 bg-gray-700  text-yellow-400">
       <h1 className="text-white my-2 text-center font-bold text-2xl">
@@ -22,12 +43,13 @@ function App() {
           placeholder="password"
           readOnly
         />
-        <button className="outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0  ">
+        <button 
+        
+        className="outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0  ">
           Copy
         </button>
       </div>
       <div className="flex text-sm gap-x-2">
-        
         <div className="flex items-center gap-x-1">
           <input
             type="range"
