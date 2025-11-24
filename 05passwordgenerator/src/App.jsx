@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -8,6 +8,8 @@ function App() {
   const [numberAllowed, setNumberAllowed] = useState(false);
   const [charAllowed, setCharAllowed] = useState(false);
   const [password, setPassword] = useState("");
+
+  const passwordRef = useRef(null);
 
   const generatePassword = useCallback(() => {
     let pass = "";
@@ -27,6 +29,12 @@ function App() {
     setPassword(pass);
   }, [length, numberAllowed, charAllowed]);
 
+  const copyPasswordToClipbord = () => {
+    window.navigator.clipboard.writeText(password);
+    passwordRef.current?.focus();
+    passwordRef.current?.select();
+  };
+
   useEffect(() => {
     generatePassword();
   }, [length, numberAllowed, charAllowed]);
@@ -42,10 +50,12 @@ function App() {
           className="outline-none w-full py-1 px-3 bg-white text-black"
           placeholder="password"
           readOnly
+          ref={passwordRef}
         />
-        <button 
-        
-        className="outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0  ">
+        <button
+          onClick={copyPasswordToClipbord}
+          className="outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0  "
+        >
           Copy
         </button>
       </div>
@@ -54,7 +64,7 @@ function App() {
           <input
             type="range"
             min={6}
-            max={100}
+            max={50}
             value={length}
             className="cursor-pointer"
             onChange={(e) => setLength(e.target.value)}
