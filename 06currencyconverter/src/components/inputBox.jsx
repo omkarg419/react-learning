@@ -1,11 +1,17 @@
-import React from 'react'
+import React from "react";
 
-function InputBox() {
-  return (
-    <div>
-      
-    </div>
-  )
+function InputBox({
+  label,
+  amount,
+  onAmountChange,
+  onCurrencyChange,
+  currencyOptions = [],
+  selectedCurrency = "usd",
+  amountDisabled = false,
+  currencyDisabled = false,
+  className = "",
+}) {
+  return <div></div>;
 }
 
-export default inputBox
+export default InputBox;
